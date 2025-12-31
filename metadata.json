@@ -1,0 +1,7 @@
+{
+  "name": "Bhagavad Gita Voice - Spiritual Guide",
+  "description": "A voice-driven spiritual app for exploring the Bhagavad Gita with multilingual explanations in Hindi, English, and Bhojpuri, featuring AI-powered search and spiritual guidance.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
