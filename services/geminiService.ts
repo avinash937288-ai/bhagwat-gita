@@ -5,7 +5,7 @@ import { Language, UserVoiceIntent, Verse } from "../types";
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
 
 export const parseVoiceIntent = async (audioBase64: string): Promise<UserVoiceIntent> => {
-  const prompt = `Intent: SEARCH (chapter/verse) or LANG (hi/en/bhojpuri). Audio is Hindi/English/Bhojpuri. Return JSON.`;
+  const prompt = `Intent: SEARCH (ch/v), NAVIGATION (next/prev), or LANG (hi/en/bho). Audio is Hindi/English/Bhojpuri. Return JSON.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -17,14 +17,15 @@ export const parseVoiceIntent = async (audioBase64: string): Promise<UserVoiceIn
         ]
       },
       config: {
-        thinkingConfig: { thinkingBudget: 0 }, // Disable thinking for maximum speed
+        thinkingConfig: { thinkingBudget: 0 },
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,
           properties: {
-            type: { type: Type.STRING, enum: ['VERSE_SEARCH', 'LANGUAGE_CHANGE', 'UNKNOWN'] },
+            type: { type: Type.STRING, enum: ['VERSE_SEARCH', 'NAVIGATION', 'LANGUAGE_CHANGE', 'UNKNOWN'] },
             chapter: { type: Type.NUMBER },
             verse: { type: Type.NUMBER },
+            direction: { type: Type.STRING, enum: ['next', 'previous'] },
             language: { type: Type.STRING, enum: ['hi', 'en', 'bhojpuri'] }
           },
           required: ['type']
@@ -47,7 +48,7 @@ export const fetchVerseContent = async (chapter: number, verse: number): Promise
       model: 'gemini-3-flash-preview',
       contents: prompt,
       config: {
-        thinkingConfig: { thinkingBudget: 0 }, // Speed optimization
+        thinkingConfig: { thinkingBudget: 0 },
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,

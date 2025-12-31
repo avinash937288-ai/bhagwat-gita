@@ -1,0 +1,22 @@
+
+{
+  "name": "Bhagavad Gita Voice",
+  "short_name": "Gita Voice",
+  "description": "Voice-driven spiritual app for the Bhagavad Gita.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fdfcf0",
+  "theme_color": "#eba92a",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2903/2903561.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2903/2903561.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

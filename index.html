@@ -3,8 +3,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Bhagavad Gita Voice - Spiritual Guide</title>
+  <meta name="theme-color" content="#eba92a">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2903/2903561.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,12 +15,13 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #fdfcf0; /* Temple Cream */
+      background-color: #fdfcf0;
       color: #2d2d2d;
       transition: background-color 0.5s ease;
+      -webkit-tap-highlight-color: transparent;
     }
     body.dark-mode-active {
-      background-color: #09090b; /* zinc-950 */
+      background-color: #09090b;
     }
     .font-spiritual {
       font-family: 'Prata', serif;
@@ -29,10 +33,7 @@
       background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
     }
     body.dark-mode-active .paper-texture {
-      background-image: none; /* Remove texture in dark mode for cleaner look or reduce opacity */
-    }
-    .gold-border {
-      border: 2px solid #D4AF37;
+      background-image: none;
     }
     .custom-scrollbar::-webkit-scrollbar {
       width: 4px;
@@ -43,6 +44,12 @@
     }
     .dark-mode-active .custom-scrollbar::-webkit-scrollbar-thumb {
       background: #eba92a;
+    }
+    .divine-aura {
+      box-shadow: 0 0 60px 10px rgba(235, 169, 42, 0.1);
+    }
+    .dark-mode-active .divine-aura {
+      box-shadow: 0 0 80px 15px rgba(235, 169, 42, 0.05);
     }
   </style>
 <script type="importmap">
