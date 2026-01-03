@@ -20,6 +20,8 @@
       color: #2d2d2d;
       transition: background-color 0.5s ease;
       -webkit-tap-highlight-color: transparent;
+      margin: 0;
+      padding: 0;
     }
     body.dark-mode-active {
       background-color: #09090b;
@@ -28,7 +30,7 @@
       font-family: 'Prata', serif;
     }
     .font-hindi {
-      font-family: 'Noto+Serif+Devanagari', serif;
+      font-family: 'Noto Serif Devanagari', serif;
     }
     .paper-texture {
       background-image: url("https://www.transparenttextures.com/patterns/cream-paper.png");
@@ -52,6 +54,18 @@
     .dark-mode-active .divine-aura {
       box-shadow: 0 0 80px 15px rgba(235, 169, 42, 0.05);
     }
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fdfcf0;
+      z-index: 9999;
+    }
+    .dark-mode-active #loading-screen {
+      background: #09090b;
+    }
   </style>
 <script type="importmap">
 {
@@ -65,8 +79,14 @@
 </script>
 </head>
 <body class="paper-texture">
-  <div id="root"></div>
-  <!-- This script tag is essential for the app to load -->
+  <div id="root">
+    <div id="loading-screen">
+      <div class="text-center">
+        <div class="w-16 h-16 border-4 border-[#eba92a] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p class="font-hindi text-xl text-[#3d2b1f] dark:text-[#fdfcf0]">श्रीमद्भगवद्गीता लोड हो रही है...</p>
+      </div>
+    </div>
+  </div>
   <script type="module" src="index.tsx"></script>
 </body>
 </html>

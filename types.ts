@@ -5,6 +5,8 @@ export enum Language {
   BHOJPURI = 'bhojpuri'
 }
 
+export type UserEmotion = 'tension' | 'anger' | 'confusion' | 'loss' | 'motivation';
+
 export interface Verse {
   chapter: number;
   verse: number;
@@ -23,9 +25,10 @@ export interface Chapter {
 }
 
 export interface UserVoiceIntent {
-  type: 'VERSE_SEARCH' | 'NAVIGATION' | 'LANGUAGE_CHANGE' | 'UNKNOWN';
+  type: 'VERSE_SEARCH' | 'NAVIGATION' | 'LANGUAGE_CHANGE' | 'EMOTION_SEARCH' | 'UNKNOWN';
   chapter?: number;
   verse?: number;
   direction?: 'next' | 'previous';
   language?: Language;
+  emotion?: UserEmotion;
 }

@@ -1,11 +1,11 @@
 
 import { GoogleGenAI, Modality, Type } from "@google/genai";
-import { Language, UserVoiceIntent, Verse } from "../types";
+import { Language, UserVoiceIntent, Verse, UserEmotion } from "../types";
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
 
 export const parseVoiceIntent = async (audioBase64: string): Promise<UserVoiceIntent> => {
-  const prompt = `Intent: SEARCH (ch/v), NAVIGATION (next/prev), or LANG (hi/en/bho). Audio is Hindi/English/Bhojpuri. Return JSON.`;
+  const prompt = `Intent: SEARCH (ch/v), NAVIGATION (next/prev), LANG (hi/en/bho), or EMOTION (tension/anger/confusion/loss/motivation). Return JSON.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -22,11 +22,12 @@ export const parseVoiceIntent = async (audioBase64: string): Promise<UserVoiceIn
         responseSchema: {
           type: Type.OBJECT,
           properties: {
-            type: { type: Type.STRING, enum: ['VERSE_SEARCH', 'NAVIGATION', 'LANGUAGE_CHANGE', 'UNKNOWN'] },
+            type: { type: Type.STRING, enum: ['VERSE_SEARCH', 'NAVIGATION', 'LANGUAGE_CHANGE', 'EMOTION_SEARCH', 'UNKNOWN'] },
             chapter: { type: Type.NUMBER },
             verse: { type: Type.NUMBER },
             direction: { type: Type.STRING, enum: ['next', 'previous'] },
-            language: { type: Type.STRING, enum: ['hi', 'en', 'bhojpuri'] }
+            language: { type: Type.STRING, enum: ['hi', 'en', 'bhojpuri'] },
+            emotion: { type: Type.STRING, enum: ['tension', 'anger', 'confusion', 'loss', 'motivation'] }
           },
           required: ['type']
         }
@@ -71,6 +72,42 @@ export const fetchVerseContent = async (chapter: number, verse: number): Promise
 
     const data = JSON.parse(response.text || '{}');
     return { chapter, verse, ...data };
+  } catch (e) {
+    return null;
+  }
+};
+
+export const fetchVerseByEmotion = async (emotion: UserEmotion): Promise<Verse | null> => {
+  const prompt = `Suggest one specific Bhagavad Gita verse for a person feeling: ${emotion}. Return Ch and Verse number plus content in JSON.`;
+
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-flash-preview',
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            chapter: { type: Type.NUMBER },
+            verse: { type: Type.NUMBER },
+            sanskrit: { type: Type.STRING },
+            transliteration: { type: Type.STRING },
+            meaning: {
+              type: Type.OBJECT,
+              properties: {
+                hi: { type: Type.STRING },
+                en: { type: Type.STRING },
+                bhojpuri: { type: Type.STRING }
+              }
+            }
+          },
+          required: ['chapter', 'verse', 'sanskrit', 'meaning']
+        }
+      }
+    });
+
+    return JSON.parse(response.text || '{}') as Verse;
   } catch (e) {
     return null;
   }
